@@ -23,5 +23,6 @@ defmodule JsonApi.Router do
     pipe_through :api
 
     resources "/todos", TodoController, except: [:new, :edit]
+    resources "/projects", ProjectController, except: [:new, :edit]
   end
 end
