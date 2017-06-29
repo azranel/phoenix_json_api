@@ -5,7 +5,7 @@ defmodule JsonApi.TodoController do
 
   def index(conn, _params) do
     todos = Repo.all(Todo)
-    render(conn, "index.json", todos: todos)
+    render(conn, "index.json-api", data: todos)
   end
 
   def create(conn, %{"todo" => todo_params}) do
@@ -16,17 +16,17 @@ defmodule JsonApi.TodoController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", todo_path(conn, :show, todo))
-        |> render("show.json", todo: todo)
+        |> render("show.json-api", todo: todo)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(JsonApi.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     todo = Repo.get!(Todo, id)
-    render(conn, "show.json", todo: todo)
+    render(conn, "show.json-api", todo: todo)
   end
 
   def update(conn, %{"id" => id, "todo" => todo_params}) do
@@ -35,11 +35,11 @@ defmodule JsonApi.TodoController do
 
     case Repo.update(changeset) do
       {:ok, todo} ->
-        render(conn, "show.json", todo: todo)
+        render(conn, "show.json-api", todo: todo)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(JsonApi.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, changeset: changeset)
     end
   end
 

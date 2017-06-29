@@ -1,17 +1,10 @@
 defmodule JsonApi.TodoView do
   use JsonApi.Web, :view
+  use JaSerializer.PhoenixView
 
-  def render("index.json", %{todos: todos}) do
-    %{data: render_many(todos, JsonApi.TodoView, "todo.json")}
-  end
+  attributes [:name, :done, :first_letter]
 
-  def render("show.json", %{todo: todo}) do
-    %{data: render_one(todo, JsonApi.TodoView, "todo.json")}
-  end
-
-  def render("todo.json", %{todo: todo}) do
-    %{id: todo.id,
-      name: todo.name,
-      done: todo.done}
+  def first_letter(todo, _) do
+    String.first(todo.name)
   end
 end
