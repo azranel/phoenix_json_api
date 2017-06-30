@@ -5,6 +5,8 @@ defmodule JsonApi.Todo do
     field :name, :string
     field :done, :boolean, default: false
 
+    belongs_to :project, JsonApi.Project
+
     timestamps()
   end
 
@@ -13,7 +15,7 @@ defmodule JsonApi.Todo do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :done])
-    |> validate_required([:name, :done])
+    |> cast(params, [:name, :done, :project_id])
+    |> validate_required([:name, :done, :project_id])
   end
 end
