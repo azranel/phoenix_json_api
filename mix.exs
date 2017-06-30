@@ -19,7 +19,7 @@ defmodule JsonApi.Mixfile do
   def application do
     [mod: {JsonApi, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :scrivener_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,9 @@ defmodule JsonApi.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:ja_serializer, "~> 0.12.0"}]
+     {:ja_serializer, "~> 0.12.0"},
+     {:scrivener_ecto, "~> 1.2.2"}
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
