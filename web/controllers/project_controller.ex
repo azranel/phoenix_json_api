@@ -19,7 +19,7 @@ defmodule JsonApi.ProjectController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", project_path(conn, :show, project))
-        |> render("show.json-api", data: project)
+        |> render("show.json-api", data: project, opts: [include: "todos"])
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -38,7 +38,7 @@ defmodule JsonApi.ProjectController do
 
     case Repo.update(changeset) do
       {:ok, project} ->
-        render(conn, "show.json-api", data: project)
+        render(conn, "show.json-api", data: project, opts: [include: "todos"])
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
