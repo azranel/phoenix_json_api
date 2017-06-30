@@ -4,7 +4,7 @@ defmodule JsonApi.TodoController do
   alias JsonApi.Todo
 
   def index(conn, _params) do
-    todos = Repo.all(Todo)
+    todos = Repo.all(Todo) |> Repo.preload(:project)
     render(conn, "index.json-api", data: todos)
   end
 
