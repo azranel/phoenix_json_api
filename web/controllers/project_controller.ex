@@ -7,8 +7,8 @@ defmodule JsonApi.ProjectController do
   plug :scrub_params, "data" when action in [:create, :update]
 
   def index(conn, _params) do
-    projects = Repo.all(Project)
-    render(conn, "index.json-api", data: projects)
+    projects = Repo.all(Project) |> Repo.preload(:todos)
+    render(conn, "index.json-api", data: projects, opts: [include: "comments"])
   end
 
   def create(conn, %{"data" => data = %{"type" => "project", "attributes" => _project_params}}) do
@@ -19,7 +19,7 @@ defmodule JsonApi.ProjectController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", project_path(conn, :show, project))
-        |> render("show.json-api", data: project)
+        |> render("show.json-api", data: project, opts: [include: "comments"])
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
@@ -38,7 +38,7 @@ defmodule JsonApi.ProjectController do
 
     case Repo.update(changeset) do
       {:ok, project} ->
-        render(conn, "show.json-api", data: project)
+        render(conn, "show.json-api", data: project, opts: [include: "comments"])
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
