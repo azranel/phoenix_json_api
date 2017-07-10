@@ -17,6 +17,9 @@ config :json_api, JsonApi.Endpoint,
   pubsub: [name: JsonApi.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :ja_serializer,
+  key_format: :underscored
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
